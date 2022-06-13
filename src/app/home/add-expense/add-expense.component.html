@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Add Expense </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button slot="icon-only" (click)="onClose()">
+        Close
+        <!-- <ion-icon name="add-circle"></ion-icon> -->
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+
+    <ion-row>
+      <ion-col size="12">
+        <form [formGroup]="expenseForm">
+          <ion-item>
+            <ion-label> Name </ion-label>
+            <ion-input
+              formControlName="name"
+              type="text"
+              placeholder="expense/income name"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label> Amount </ion-label>
+            <ion-input
+              type="number"
+              placeholder="expense/income amount"
+              formControlName="expense"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-select
+              #month
+              placeholder="Select One"
+              interface="popover"
+              value="income"
+              formControlName="type"
+            >
+              <ion-select-option value="income">Income</ion-select-option>
+              <ion-select-option value="expense">Expense</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <!--
+          <ion-item>
+            <ion-label> Date </ion-label>
+            <ion-input type="date" formControlName="date"></ion-input>
+          </ion-item> -->
+
+          <ion-button class="ion-margin" (click)="onPickDate()"
+            >Pick Date</ion-button
+          >
+          <ion-button color="light" *ngIf="date" slot="end">{{
+            date | date
+          }}</ion-button>
+          <ion-datetime
+            *ngIf="showDateTime"
+            #dateTime
+            presentation="date"
+            size="cover"
+            (ionChange)="OnChange(dateTime.value)"
+          ></ion-datetime>
+          <ion-button
+            [disabled]="!expenseForm.valid || !date"
+            class="ion-margin"
+            (click)="addExpense()"
+            expand="block"
+            >Add {{month.value==='income'?'Income': 'Expense'}}</ion-button
+          >
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
